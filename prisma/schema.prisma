@@ -80,7 +80,7 @@ model CalculoDiluicao {
 
   reconstituicao String   @db.Text
   diluicao       String   @db.Text
-  concentracao   Decimal
+  concentracao   Decimal  @db.Decimal(10, 2)
   estabilidade   String   @db.VarChar(255)
   tempo_adm      String   @db.VarChar(255)
   observacao     String   @db.Text
