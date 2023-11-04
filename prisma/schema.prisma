@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Farmaco {
+  id          Int           @id @default(autoincrement())
+  nome        String        @db.VarChar(255)
+  Medicamento Medicamento[]
+
+  @@map("farmacos")
+}
+
+model Laboratorio {
+  id              Int               @id @default(autoincrement())
+  nome            String            @db.VarChar(255)
+  Medicamento     Medicamento[]
+  CalculoDiluicao CalculoDiluicao[]
+
+  @@map("laboratorios")
+}
+
+model Marca {
+  id              Int               @id @default(autoincrement())
+  nome            String            @db.VarChar(255)
+  Medicamento     Medicamento[]
+  CalculoDiluicao CalculoDiluicao[]
+
+  @@map("marcas")
+}
+
+model Acesso {
+  id              Int               @id @default(autoincrement())
+  nome            String            @db.VarChar(255)
+  CalculoDiluicao CalculoDiluicao[]
+
+  @@map("acessos")
+}
+
+model Via_Administracao {
+  id              Int               @id @default(autoincrement())
+  nome            String            @db.VarChar(255)
+  CalculoDiluicao CalculoDiluicao[]
+
+  @@map("vias_administracao")
+}
+
+model Medicamento {
+  id Int @id @default(autoincrement())
+
+  farmaco    Farmaco @relation(fields: [id_farmaco], references: [id])
+  id_farmaco Int
+
+  marca    Marca @relation(fields: [id_marca], references: [id])
+  id_marca Int
+
+  laboratorio    Laboratorio @relation(fields: [id_laboratorio], references: [id])
+  id_laboratorio Int
+
+  apresentacao    String            @db.VarChar(255)
+  bolsa           Boolean           @default(false)
+  CalculoDiluicao CalculoDiluicao[]
+
+  @@map("medicamentos")
+}
+
+model CalculoDiluicao {
+  id Int @id @default(autoincrement())
+
+  medicamento    Medicamento @relation(fields: [id_medicamento], references: [id])
+  id_medicamento Int
+
+  via    Via_Administracao @relation(fields: [id_via], references: [id])
+  id_via Int
+
+  acesso    Acesso @relation(fields: [id_acesso], references: [id])
+  id_acesso Int
+
+  reconstituicao String       @db.Text
+  diluicao       String       @db.Text
+  concentracao   Decimal
+  estabilidade   String       @db.VarChar(255)
+  tempo_adm      String       @db.VarChar(255)
+  observacao     String       @db.Text
+  data_criacao   DateTime     @default(now())
+  Laboratorio    Laboratorio? @relation(fields: [laboratorioId], references: [id])
+  laboratorioId  Int?
+  Marca          Marca?       @relation(fields: [marcaId], references: [id])
+  marcaId        Int?
+
+  @@map("calculo_diluicao")
+}
