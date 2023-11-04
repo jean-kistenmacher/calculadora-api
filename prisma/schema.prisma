@@ -16,19 +16,17 @@ model Farmaco {
 }
 
 model Laboratorio {
-  id              Int               @id @default(autoincrement())
-  nome            String            @db.VarChar(255)
-  Medicamento     Medicamento[]
-  CalculoDiluicao CalculoDiluicao[]
+  id          Int           @id @default(autoincrement())
+  nome        String        @db.VarChar(255)
+  Medicamento Medicamento[]
 
   @@map("laboratorios")
 }
 
 model Marca {
-  id              Int               @id @default(autoincrement())
-  nome            String            @db.VarChar(255)
-  Medicamento     Medicamento[]
-  CalculoDiluicao CalculoDiluicao[]
+  id          Int           @id @default(autoincrement())
+  nome        String        @db.VarChar(255)
+  Medicamento Medicamento[]
 
   @@map("marcas")
 }
@@ -80,17 +78,13 @@ model CalculoDiluicao {
   acesso    Acesso @relation(fields: [id_acesso], references: [id])
   id_acesso Int
 
-  reconstituicao String       @db.Text
-  diluicao       String       @db.Text
+  reconstituicao String   @db.Text
+  diluicao       String   @db.Text
   concentracao   Decimal
-  estabilidade   String       @db.VarChar(255)
-  tempo_adm      String       @db.VarChar(255)
-  observacao     String       @db.Text
-  data_criacao   DateTime     @default(now())
-  Laboratorio    Laboratorio? @relation(fields: [laboratorioId], references: [id])
-  laboratorioId  Int?
-  Marca          Marca?       @relation(fields: [marcaId], references: [id])
-  marcaId        Int?
+  estabilidade   String   @db.VarChar(255)
+  tempo_adm      String   @db.VarChar(255)
+  observacao     String   @db.Text
+  data_criacao   DateTime @default(now())
 
   @@map("calculo_diluicao")
 }
