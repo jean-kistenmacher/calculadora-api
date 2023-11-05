@@ -6,6 +6,7 @@ import acessoRouter from "./acesso.routes";
 import viaRouter from "./via.routes";
 import medicamentoRouter from "./medicamento.routes";
 import diluicaoRouter from "./diluicao.routes";
+import calculoDiluicaoRouter from "./calcularDiluicao.routes";
 
 const router = Router();
 
@@ -16,6 +17,7 @@ router.use('/acesso', acessoRouter)
 router.use('/via', viaRouter)
 router.use('/medicamento', medicamentoRouter)
 router.use('/diluicao', diluicaoRouter)
+router.use('/calculoDiluicao', calculoDiluicaoRouter)
 
 
 export { router };
