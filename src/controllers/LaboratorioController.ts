@@ -12,7 +12,7 @@ export class LaboratorioController {
       }
     })
 
-    return response.json();
+    return response.json(laboratorio);
   }
 
   async getLaboratorios (request: Request, response: Response) {

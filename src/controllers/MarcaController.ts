@@ -12,7 +12,7 @@ export class MarcaController {
       }
     })
 
-    return response.json();
+    return response.json(marca);
   }
 
   async getMarcas (request: Request, response: Response) {

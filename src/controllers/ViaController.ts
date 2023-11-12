@@ -12,7 +12,7 @@ export class ViaController {
       }
     })
 
-    return response.json();
+    return response.json(via);
   }
 
   async getVias (request: Request, response: Response) {

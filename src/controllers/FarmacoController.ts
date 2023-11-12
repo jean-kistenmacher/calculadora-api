@@ -12,7 +12,7 @@ export class FarmacoController {
       }
     })
 
-    return response.json();
+    return response.json(farmaco);
   }
 
   async getFarmacos (request: Request, response: Response) {
