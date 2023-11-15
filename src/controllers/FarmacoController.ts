@@ -16,19 +16,34 @@ export class FarmacoController {
   }
 
   async getFarmacos (request: Request, response: Response) {
-    const pageSize = 5
+    const pageSize = 5;
+    let search = "";
     const { page } = request.query;
+    if (request.query.search) {
+      search = request.query.search as string;
+    }
     const skip = (Number(page) - 1) * pageSize;
-    const totalCount = await prismaClient.farmaco.count();
+    const totalCount = await prismaClient.farmaco.count({
+      where: {
+        nome: {
+          startsWith: search
+        }
+      },
+    });
     const farmacos = await prismaClient.farmaco.findMany({
       skip,
       take: pageSize,
+      where: {
+        nome: {
+          startsWith: search
+        }
+      },
       orderBy: {
         nome: 'asc'
-      }
+      },
     })
     const totalPages = Math.ceil(totalCount / pageSize);
-    return response.json({ farmacos, totalPages });
+    return response.json({ farmacos, totalPages, pagination: { totalCount } });
   }
 
   async getFarmacosById (request: Request, response: Response) {
@@ -66,7 +81,7 @@ export class FarmacoController {
       return response.json(deleteFarmaco);
     } catch (error) {
       const message = "Registro está vinculado em outro dado"
-      return response.status(400).json({ message });
+      return response.status(200).json({ error: message });
     }
 
   }
