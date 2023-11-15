@@ -19,10 +19,35 @@ export class MedicamentoController {
     return response.json(medicamento);
   }
 
-
   async getMedicamentos (request: Request, response: Response) {
-    const medicamentos = await prismaClient.medicamento.findMany()
-    return response.json(medicamentos);
+    const pageSize = 5;
+    let search = "";
+    const { page } = request.query;
+    if (request.query.search) {
+      search = request.query.search as string;
+    }
+    const skip = (Number(page) - 1) * pageSize;
+    const totalCount = await prismaClient.medicamento.count({
+      // where: {
+      //   nome: {
+      //     startsWith: search
+      //   }
+      // },
+    });
+    const medicamentos = await prismaClient.medicamento.findMany({
+      skip,
+      take: pageSize,
+      // where: {
+      //   nome: {
+      //     startsWith: search
+      //   }
+      // },
+      // orderBy: {
+      //   nome: 'asc'
+      // },
+    })
+    const totalPages = Math.ceil(totalCount / pageSize);
+    return response.json({ medicamentos, totalPages });
   }
 
   async getMedicamentoById (request: Request, response: Response) {

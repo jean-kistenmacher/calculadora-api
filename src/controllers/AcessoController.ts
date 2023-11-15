@@ -15,10 +15,35 @@ export class AcessoController {
     return response.json(acesso);
   }
 
-
   async getAcessos (request: Request, response: Response) {
-    const acessos = await prismaClient.acesso.findMany()
-    return response.json(acessos);
+    const pageSize = 5;
+    let search = "";
+    const { page } = request.query;
+    if (request.query.search) {
+      search = request.query.search as string;
+    }
+    const skip = (Number(page) - 1) * pageSize;
+    const totalCount = await prismaClient.acesso.count({
+      where: {
+        nome: {
+          startsWith: search
+        }
+      },
+    });
+    const acessos = await prismaClient.acesso.findMany({
+      skip,
+      take: pageSize,
+      where: {
+        nome: {
+          startsWith: search
+        }
+      },
+      orderBy: {
+        nome: 'asc'
+      },
+    })
+    const totalPages = Math.ceil(totalCount / pageSize);
+    return response.json({ acessos, totalPages });
   }
 
   async getAcessoById (request: Request, response: Response) {

@@ -43,7 +43,7 @@ export class FarmacoController {
       },
     })
     const totalPages = Math.ceil(totalCount / pageSize);
-    return response.json({ farmacos, totalPages, pagination: { totalCount } });
+    return response.json({ farmacos, totalPages });
   }
 
   async getFarmacosById (request: Request, response: Response) {

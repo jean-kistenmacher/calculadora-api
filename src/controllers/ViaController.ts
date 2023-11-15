@@ -16,8 +16,34 @@ export class ViaController {
   }
 
   async getVias (request: Request, response: Response) {
-    const vias = await prismaClient.via_Administracao.findMany()
-    return response.json(vias);
+    const pageSize = 5;
+    let search = "";
+    const { page } = request.query;
+    if (request.query.search) {
+      search = request.query.search as string;
+    }
+    const skip = (Number(page) - 1) * pageSize;
+    const totalCount = await prismaClient.via_Administracao.count({
+      where: {
+        nome: {
+          startsWith: search
+        }
+      },
+    });
+    const vias = await prismaClient.via_Administracao.findMany({
+      skip,
+      take: pageSize,
+      where: {
+        nome: {
+          startsWith: search
+        }
+      },
+      orderBy: {
+        nome: 'asc'
+      },
+    })
+    const totalPages = Math.ceil(totalCount / pageSize);
+    return response.json({ vias, totalPages });
   }
 
   async getViaById (request: Request, response: Response) {

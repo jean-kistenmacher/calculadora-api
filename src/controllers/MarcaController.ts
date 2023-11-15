@@ -16,8 +16,34 @@ export class MarcaController {
   }
 
   async getMarcas (request: Request, response: Response) {
-    const marcas = await prismaClient.marca.findMany()
-    return response.json(marcas);
+    const pageSize = 5;
+    let search = "";
+    const { page } = request.query;
+    if (request.query.search) {
+      search = request.query.search as string;
+    }
+    const skip = (Number(page) - 1) * pageSize;
+    const totalCount = await prismaClient.marca.count({
+      where: {
+        nome: {
+          startsWith: search
+        }
+      },
+    });
+    const marcas = await prismaClient.marca.findMany({
+      skip,
+      take: pageSize,
+      where: {
+        nome: {
+          startsWith: search
+        }
+      },
+      orderBy: {
+        nome: 'asc'
+      },
+    })
+    const totalPages = Math.ceil(totalCount / pageSize);
+    return response.json({ marcas, totalPages });
   }
 
   async getMarcaById (request: Request, response: Response) {
