@@ -83,6 +83,5 @@ export class FarmacoController {
       const message = "Registro está vinculado em outro dado"
       return response.status(200).json({ error: message });
     }
-
   }
 }

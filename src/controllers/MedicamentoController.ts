@@ -79,15 +79,19 @@ export class MedicamentoController {
     return response.json(updateMedicamento);
   }
 
-
   async removeMedicamento (request: Request, response: Response) {
     const { id } = request.params;
-    const deleteMedicamento = await prismaClient.medicamento.delete({
-      where: {
-        id: parseInt(id),
-      },
-    })
-    return response.json(deleteMedicamento);
+    try {
+      const deleteMedicamento = await prismaClient.medicamento.delete({
+        where: {
+          id: parseInt(id),
+        },
+      })
+      return response.json(deleteMedicamento);
+    } catch (error) {
+      const message = "Registro está vinculado em outro dado"
+      return response.status(200).json({ error: message });
+    }
   }
 
 }

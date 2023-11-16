@@ -71,15 +71,18 @@ export class AcessoController {
     return response.json(updateAcesso);
   }
 
-
   async removeAcesso (request: Request, response: Response) {
     const { id } = request.params;
-    const deleteAcesso = await prismaClient.acesso.delete({
-      where: {
-        id: parseInt(id),
-      },
-    })
-    return response.json(deleteAcesso);
+    try {
+      const deleteAcesso = await prismaClient.acesso.delete({
+        where: {
+          id: parseInt(id),
+        },
+      })
+      return response.json(deleteAcesso);
+    } catch (error) {
+      const message = "Registro está vinculado em outro dado"
+      return response.status(200).json({ error: message });
+    }
   }
-
 }

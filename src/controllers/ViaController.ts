@@ -72,11 +72,16 @@ export class ViaController {
 
   async removeVia (request: Request, response: Response) {
     const { id } = request.params;
-    const deleteVia = await prismaClient.via_Administracao.delete({
-      where: {
-        id: parseInt(id),
-      },
-    })
-    return response.json(deleteVia);
+    try {
+      const deleteVia = await prismaClient.via_Administracao.delete({
+        where: {
+          id: parseInt(id),
+        },
+      })
+      return response.json(deleteVia);
+    } catch (error) {
+      const message = "Registro está vinculado em outro dado"
+      return response.status(200).json({ error: message });
+    }
   }
 }

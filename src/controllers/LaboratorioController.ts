@@ -72,12 +72,17 @@ export class LaboratorioController {
 
   async removeLaboratorio (request: Request, response: Response) {
     const { id } = request.params;
-    const deleteLaboratorio = await prismaClient.laboratorio.delete({
-      where: {
-        id: parseInt(id),
-      },
-    })
-    return response.json(deleteLaboratorio);
+    try {
+      const deleteLaboratorio = await prismaClient.laboratorio.delete({
+        where: {
+          id: parseInt(id),
+        },
+      })
+      return response.json(deleteLaboratorio);
+    } catch (error) {
+      const message = "Registro está vinculado em outro dado"
+      return response.status(200).json({ error: message });
+    }
   }
 
 }

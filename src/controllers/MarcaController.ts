@@ -72,12 +72,17 @@ export class MarcaController {
 
   async removeMarca (request: Request, response: Response) {
     const { id } = request.params;
-    const deleteMarca = await prismaClient.marca.delete({
-      where: {
-        id: parseInt(id),
-      },
-    })
-    return response.json(deleteMarca);
+    try {
+      const deleteMarca = await prismaClient.marca.delete({
+        where: {
+          id: parseInt(id),
+        },
+      })
+      return response.json(deleteMarca);
+    } catch (error) {
+      const message = "Registro está vinculado em outro dado"
+      return response.status(200).json({ error: message });
+    }
   }
 
 }
