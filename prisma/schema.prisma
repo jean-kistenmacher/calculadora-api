@@ -7,26 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Farmaco {
-  id          Int           @id @default(autoincrement())
-  nome        String        @db.VarChar(255)
-  Medicamento Medicamento[]
+model Medicamento {
+  id           Int            @id @default(autoincrement())
+  nome         String         @db.VarChar(255)
+  Apresentacao Apresentacao[]
 
-  @@map("farmacos")
+  @@map("medicamentos")
 }
 
 model Laboratorio {
-  id          Int           @id @default(autoincrement())
-  nome        String        @db.VarChar(255)
-  Medicamento Medicamento[]
+  id           Int            @id @default(autoincrement())
+  nome         String         @db.VarChar(255)
+  Apresentacao Apresentacao[]
 
   @@map("laboratorios")
 }
 
 model Marca {
-  id          Int           @id @default(autoincrement())
-  nome        String        @db.VarChar(255)
-  Medicamento Medicamento[]
+  id           Int            @id @default(autoincrement())
+  nome         String         @db.VarChar(255)
+  Apresentacao Apresentacao[]
 
   @@map("marcas")
 }
@@ -47,11 +47,11 @@ model Via_Administracao {
   @@map("vias_administracao")
 }
 
-model Medicamento {
+model Apresentacao {
   id Int @id @default(autoincrement())
 
-  farmaco    Farmaco @relation(fields: [id_farmaco], references: [id])
-  id_farmaco Int
+  medicamento    Medicamento @relation(fields: [id_medicamento], references: [id])
+  id_medicamento Int
 
   marca    Marca @relation(fields: [id_marca], references: [id])
   id_marca Int
@@ -59,18 +59,18 @@ model Medicamento {
   laboratorio    Laboratorio @relation(fields: [id_laboratorio], references: [id])
   id_laboratorio Int
 
-  apresentacao    String            @db.VarChar(255)
-  bolsa           Boolean           @default(false)
-  CalculoDiluicao CalculoDiluicao[]
+  qtd_apresentacao String            @db.VarChar(255)
+  bolsa            Boolean           @default(false)
+  CalculoDiluicao  CalculoDiluicao[]
 
-  @@map("medicamentos")
+  @@map("apresentacoes")
 }
 
 model CalculoDiluicao {
   id Int @id @default(autoincrement())
 
-  medicamento    Medicamento @relation(fields: [id_medicamento], references: [id])
-  id_medicamento Int
+  apresentacao    Apresentacao @relation(fields: [id_apresentacao], references: [id])
+  id_apresentacao Int
 
   via    Via_Administracao @relation(fields: [id_via], references: [id])
   id_via Int

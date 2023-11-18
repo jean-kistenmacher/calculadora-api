@@ -11,9 +11,8 @@ medicamentoRouter.post("/", medicamentoController.createMedicamento);
 medicamentoRouter.put("/:id", medicamentoController.updateMedicamento);
 
 medicamentoRouter.get("/", medicamentoController.getMedicamentos);
-medicamentoRouter.get("/:id", medicamentoController.getMedicamentoById);
+medicamentoRouter.get("/:id", medicamentoController.getMedicamentosById);
 
 medicamentoRouter.delete("/:id", medicamentoController.removeMedicamento);
-
 
 export default medicamentoRouter;
