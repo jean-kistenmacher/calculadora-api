@@ -15,6 +15,11 @@ export class MarcaController {
     return response.json(marca);
   }
 
+  async getAllMarcas (request: Request, response: Response) {
+    const marcas = await prismaClient.marca.findMany({ orderBy: { nome: 'asc' } });
+    return response.json(marcas);
+  }
+
   async getMarcas (request: Request, response: Response) {
     const pageSize = 5;
     let search = "";

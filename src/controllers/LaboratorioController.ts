@@ -15,6 +15,12 @@ export class LaboratorioController {
     return response.json(laboratorio);
   }
 
+  async getAllLaboratorios (request: Request, response: Response) {
+    const laboratorios = await prismaClient.laboratorio.findMany({ orderBy: { nome: 'asc' } });
+    return response.json(laboratorios);
+  }
+
+
   async getLaboratorios (request: Request, response: Response) {
     const pageSize = 5;
     let search = "";

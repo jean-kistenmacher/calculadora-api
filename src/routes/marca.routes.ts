@@ -10,8 +10,13 @@ marcaRouter.post("/", marcaController.createMarca);
 
 marcaRouter.put("/:id", marcaController.updateMarca);
 
+
+
 marcaRouter.get("/", marcaController.getMarcas);
+marcaRouter.get("/all", marcaController.getAllMarcas);
 marcaRouter.get("/:id", marcaController.getMarcaById);
+
+
 
 marcaRouter.delete("/:id", marcaController.removeMarca);
 
