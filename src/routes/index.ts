@@ -1,5 +1,5 @@
 import { Router } from "express";
-import farmacoRouter from "./farmaco.routes";
+import medicamentoRouter from "./medicamento.routes";
 import marcaRouter from "./marca.routes";
 import laboratorioRouter from "./laboratorio.routes";
 import acessoRouter from "./acesso.routes";
@@ -10,7 +10,7 @@ import calculoDiluicaoRouter from "./calcularDiluicao.routes";
 
 const router = Router();
 
-router.use('/farmaco', farmacoRouter)
+router.use('/medicamento', medicamentoRouter)
 router.use('/marca', marcaRouter)
 router.use('/laboratorio', laboratorioRouter)
 router.use('/acesso', acessoRouter)
