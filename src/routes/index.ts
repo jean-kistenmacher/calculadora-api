@@ -7,6 +7,7 @@ import viaRouter from "./via.routes";
 import apresentacaoRouter from "./apresentacao.routes";
 import diluicaoRouter from "./diluicao.routes";
 import calculoDiluicaoRouter from "./calcularDiluicao.routes";
+import unidadeRouter from "./unidade.routes";
 
 const router = Router();
 
@@ -18,6 +19,7 @@ router.use('/via', viaRouter)
 router.use('/apresentacao', apresentacaoRouter)
 router.use('/diluicao', diluicaoRouter)
 router.use('/calculoDiluicao', calculoDiluicaoRouter)
+router.use('/unidade', unidadeRouter)
 
 
 export { router };
