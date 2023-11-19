@@ -8,7 +8,7 @@ const apresentacaoController = new ApresentacaoController();
 
 apresentacaoRouter.post("/", apresentacaoController.createApresentacao);
 
-apresentacaoRouter.put("/:id", apresentacaoController.updateApresentacao);
+apresentacaoRouter.post("/:id", apresentacaoController.updateApresentacao);
 
 apresentacaoRouter.get("/", apresentacaoController.getApresentacoes);
 apresentacaoRouter.get("/:id", apresentacaoController.getApresentacaoById);

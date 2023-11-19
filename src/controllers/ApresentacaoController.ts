@@ -4,15 +4,15 @@ import { prismaClient } from '../database/prismaClient';
 export class ApresentacaoController {
 
   async createApresentacao (request: Request, response: Response) {
-    const { qtdApresentacao, bolsa, idFarmaco, idLaboratorio, idMarca } = request.body;
+    const { qtdApresentacao, bolsa, idMedicamento, idLaboratorio, idMarca } = request.body;
 
     const apresentacao = await prismaClient.apresentacao.create({
       data: {
+        id_medicamento: idMedicamento,
+        id_marca: idMarca,
+        id_laboratorio: idLaboratorio,
         qtd_apresentacao: qtdApresentacao,
         bolsa: bolsa,
-        id_medicamento: idFarmaco,
-        id_laboratorio: idLaboratorio,
-        id_marca: idMarca,
       }
     })
 
@@ -20,8 +20,25 @@ export class ApresentacaoController {
   }
 
   async getApresentacoes (request: Request, response: Response) {
-    const apresentacaos = await prismaClient.apresentacao.findMany({ orderBy: { marca: { nome: "asc" } } });
-    return response.json(apresentacaos);
+    const { idMedicamento } = request.query;
+    try {
+      const apresentacaos = await prismaClient.apresentacao.findMany(
+        {
+          where: {
+            id_medicamento: Number(idMedicamento)
+          },
+          orderBy: { marca: { nome: "asc" } },
+          include: {
+            marca: true,
+            laboratorio: true
+          }
+        }
+      );
+      return response.json(apresentacaos);
+    } catch (error) {
+      return response.json(error);
+    }
+
   }
 
   async getApresentacaoById (request: Request, response: Response) {
@@ -37,17 +54,17 @@ export class ApresentacaoController {
 
   async updateApresentacao (request: Request, response: Response) {
     const { id } = request.params;
-    const { qtdApresentacao, bolsa, idFarmaco, idLaboratorio, idMarca } = request.body;
+    const { qtdApresentacao, bolsa, idMedicamento, idLaboratorio, idMarca } = request.body;
     const updateApresentacao = await prismaClient.apresentacao.update({
       where: {
         id: parseInt(id),
       },
       data: {
+        id_medicamento: idMedicamento,
+        id_marca: idMarca,
+        id_laboratorio: idLaboratorio,
         qtd_apresentacao: qtdApresentacao,
         bolsa: bolsa,
-        id_medicamento: idFarmaco,
-        id_laboratorio: idLaboratorio,
-        id_marca: idMarca,
       }
     })
     return response.json(updateApresentacao);
