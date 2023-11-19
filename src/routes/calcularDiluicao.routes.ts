@@ -5,6 +5,6 @@ const calculoDiluicaoRouter = Router();
 
 const calculoDiluicaoController = new CalculoDiluicaoController();
 
-calculoDiluicaoRouter.get("/", calculoDiluicaoController.calcularDiluicao);
+calculoDiluicaoRouter.post("/", calculoDiluicaoController.calcularDiluicao);
 
 export default calculoDiluicaoRouter;

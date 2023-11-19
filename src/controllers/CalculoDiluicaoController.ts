@@ -15,6 +15,9 @@ export class CalculoDiluicaoController {
         apresentacao: true,
       }
     });
+    if (!calculoDiluicao) {
+      return response.json({ naoEncontrado: true });
+    }
     const aspirar = Number(dose) / Number(calculoDiluicao?.concentracao);
     const resposta = { ...calculoDiluicao, aspirar, dose }
     return response.json(resposta);
