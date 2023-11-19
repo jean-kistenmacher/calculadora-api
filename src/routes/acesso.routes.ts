@@ -11,6 +11,7 @@ acessoRouter.post("/", acessoController.createAcesso);
 acessoRouter.put("/:id", acessoController.updateAcesso);
 
 acessoRouter.get("/", acessoController.getAcessos);
+acessoRouter.get("/all", acessoController.getAllAcessos);
 acessoRouter.get("/:id", acessoController.getAcessoById);
 
 acessoRouter.delete("/:id", acessoController.removeAcesso);

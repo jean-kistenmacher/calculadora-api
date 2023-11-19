@@ -4,11 +4,11 @@ import { prismaClient } from '../database/prismaClient';
 export class DiluicaoController {
 
   async createDiluicao (request: Request, response: Response) {
-    const { concentracao, diluicao, estabilidade, observacao, reconstituicao, tempoAdm, idMedicamento, idAcesso, idVia } = request.body;
+    const { concentracao, diluicao, estabilidade, observacao, reconstituicao, tempoAdm, idApresentacao, idAcesso, idVia } = request.body;
 
     const calcDiluicao = await prismaClient.calculoDiluicao.create({
       data: {
-        id_medicamento: idMedicamento,
+        id_apresentacao: idApresentacao,
         id_via: idVia,
         id_acesso: idAcesso,
         reconstituicao: reconstituicao,
@@ -25,7 +25,22 @@ export class DiluicaoController {
 
 
   async getDiluicoes (request: Request, response: Response) {
-    const diluicaos = await prismaClient.calculoDiluicao.findMany()
+    const { idMedicamento } = request.query;
+    const diluicaos = await prismaClient.calculoDiluicao.findMany(
+      {
+        where: {
+          apresentacao: {
+            id_medicamento: Number(idMedicamento)
+          }
+        },
+        orderBy: { apresentacao: { marca: { nome: "asc" } } },
+        include: {
+          acesso: true,
+          apresentacao: true,
+          via: true
+        }
+      }
+    )
     return response.json(diluicaos);
   }
 
@@ -42,13 +57,13 @@ export class DiluicaoController {
 
   async updateDiluicao (request: Request, response: Response) {
     const { id } = request.params;
-    const { concentracao, diluicao, estabilidade, observacao, reconstituicao, tempoAdm, idMedicamento, idAcesso, idVia } = request.body;
+    const { concentracao, diluicao, estabilidade, observacao, reconstituicao, tempoAdm, idApresentacao, idAcesso, idVia } = request.body;
     const updateDiluicao = await prismaClient.calculoDiluicao.update({
       where: {
         id: parseInt(id),
       },
       data: {
-        id_medicamento: idMedicamento,
+        id_apresentacao: idApresentacao,
         id_via: idVia,
         id_acesso: idAcesso,
         reconstituicao: reconstituicao,

@@ -46,6 +46,11 @@ export class ViaController {
     return response.json({ vias, totalPages });
   }
 
+  async getAllVias (request: Request, response: Response) {
+    const vias = await prismaClient.via_Administracao.findMany({ orderBy: { nome: 'asc' } });
+    return response.json(vias);
+  }
+
   async getViaById (request: Request, response: Response) {
     const { id } = request.params;
     const via = await prismaClient.via_Administracao.findUnique({

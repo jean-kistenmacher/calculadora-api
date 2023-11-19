@@ -46,6 +46,11 @@ export class AcessoController {
     return response.json({ acessos, totalPages });
   }
 
+  async getAllAcessos (request: Request, response: Response) {
+    const acessos = await prismaClient.acesso.findMany({ orderBy: { nome: 'asc' } });
+    return response.json(acessos);
+  }
+
   async getAcessoById (request: Request, response: Response) {
     const { id } = request.params;
     const acesso = await prismaClient.acesso.findUnique({
