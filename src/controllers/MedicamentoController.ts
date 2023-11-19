@@ -46,6 +46,11 @@ export class MedicamentoController {
     return response.json({ medicamentos, totalPages });
   }
 
+  async getAllMedicamentos (request: Request, response: Response) {
+    const medicamentos = await prismaClient.medicamento.findMany({ orderBy: { nome: 'asc' } });
+    return response.json(medicamentos);
+  }
+
   async getMedicamentosById (request: Request, response: Response) {
     const { id } = request.params;
     const medicamento = await prismaClient.medicamento.findUnique({
