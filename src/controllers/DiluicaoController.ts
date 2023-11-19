@@ -37,7 +37,13 @@ export class DiluicaoController {
         orderBy: { apresentacao: { marca: { nome: "asc" } } },
         include: {
           acesso: true,
-          apresentacao: true,
+          apresentacao: {
+            include: {
+              medicamento: true,
+              marca: true,
+              laboratorio: true
+            }
+          },
           via: true,
           unidadeMedida: true
         }
