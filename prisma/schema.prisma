@@ -47,6 +47,14 @@ model Via_Administracao {
   @@map("vias_administracao")
 }
 
+model Unidade_Medida {
+  id              Int               @id @default(autoincrement())
+  nome            String            @db.VarChar(255)
+  CalculoDiluicao CalculoDiluicao[]
+
+  @@map("unidades_medida")
+}
+
 model Apresentacao {
   id Int @id @default(autoincrement())
 
@@ -77,6 +85,9 @@ model CalculoDiluicao {
 
   acesso    Acesso @relation(fields: [id_acesso], references: [id])
   id_acesso Int
+
+  unidadeMedica     Unidade_Medida @relation(fields: [id_unidade_medida], references: [id])
+  id_unidade_medida Int
 
   reconstituicao String   @db.Text
   diluicao       String   @db.Text
