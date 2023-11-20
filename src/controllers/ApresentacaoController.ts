@@ -4,24 +4,27 @@ import { prismaClient } from '../database/prismaClient';
 export class ApresentacaoController {
 
   async createApresentacao (request: Request, response: Response) {
-    const { qtdApresentacao, bolsa, idMedicamento, idLaboratorio, idMarca } = request.body;
+    try {
+      const { qtdApresentacao, bolsa, idMedicamento, idLaboratorio, idMarca } = request.body;
+      const apresentacao = await prismaClient.apresentacao.create({
+        data: {
+          id_medicamento: idMedicamento,
+          id_marca: idMarca,
+          id_laboratorio: idLaboratorio,
+          qtd_apresentacao: qtdApresentacao,
+          bolsa: bolsa,
+        }
+      })
 
-    const apresentacao = await prismaClient.apresentacao.create({
-      data: {
-        id_medicamento: idMedicamento,
-        id_marca: idMarca,
-        id_laboratorio: idLaboratorio,
-        qtd_apresentacao: qtdApresentacao,
-        bolsa: bolsa,
-      }
-    })
-
-    return response.json(apresentacao);
+      return response.json(apresentacao);
+    } catch (error) {
+      return response.status(400).json(error);
+    }
   }
 
   async getApresentacoes (request: Request, response: Response) {
-    const { idMedicamento } = request.query;
     try {
+      const { idMedicamento } = request.query;
       const apresentacaos = await prismaClient.apresentacao.findMany(
         {
           where: {
@@ -36,38 +39,45 @@ export class ApresentacaoController {
       );
       return response.json(apresentacaos);
     } catch (error) {
-      return response.json(error);
+      return response.status(400).json(error);
     }
-
   }
 
   async getApresentacaoById (request: Request, response: Response) {
-    const { id } = request.params;
-    const apresentacao = await prismaClient.apresentacao.findUnique({
-      where: {
-        id: parseInt(id)
-      },
-    })
-    return response.json(apresentacao);
+    try {
+      const { id } = request.params;
+      const apresentacao = await prismaClient.apresentacao.findUnique({
+        where: {
+          id: parseInt(id)
+        },
+      })
+      return response.json(apresentacao);
+    } catch (error) {
+      return response.status(400).json(error);
+    }
   }
 
 
   async updateApresentacao (request: Request, response: Response) {
-    const { id } = request.params;
-    const { qtdApresentacao, bolsa, idMedicamento, idLaboratorio, idMarca } = request.body;
-    const updateApresentacao = await prismaClient.apresentacao.update({
-      where: {
-        id: parseInt(id),
-      },
-      data: {
-        id_medicamento: idMedicamento,
-        id_marca: idMarca,
-        id_laboratorio: idLaboratorio,
-        qtd_apresentacao: qtdApresentacao,
-        bolsa: bolsa,
-      }
-    })
-    return response.json(updateApresentacao);
+    try {
+      const { id } = request.params;
+      const { qtdApresentacao, bolsa, idMedicamento, idLaboratorio, idMarca } = request.body;
+      const updateApresentacao = await prismaClient.apresentacao.update({
+        where: {
+          id: parseInt(id),
+        },
+        data: {
+          id_medicamento: idMedicamento,
+          id_marca: idMarca,
+          id_laboratorio: idLaboratorio,
+          qtd_apresentacao: qtdApresentacao,
+          bolsa: bolsa,
+        }
+      })
+      return response.json(updateApresentacao);
+    } catch (error) {
+      return response.status(400).json(error);
+    }
   }
 
   async removeApresentacao (request: Request, response: Response) {
