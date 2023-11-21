@@ -4,7 +4,7 @@ const cors = require('cors');
 import { router } from "./routes";
 
 const app = express();
-const port = 8080;
+const port = 3000;
 
 const corsOptions = {
   origin: 'http://localhost:3000',
