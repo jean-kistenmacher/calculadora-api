@@ -20,7 +20,7 @@ export class CalculoDiluicaoController {
         return response.json({ naoEncontrado: true });
       }
       const aspirar = Number(dose) / Number(calculoDiluicao?.concentracao);
-      const resposta = { ...calculoDiluicao, aspirar, dose }
+      const resposta = { ...calculoDiluicao, aspirar: aspirar.toString(), dose }
       return response.json(resposta);
     } catch (error) {
       return response.status(400).json(error);
