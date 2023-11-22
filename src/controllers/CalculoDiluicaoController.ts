@@ -11,9 +11,6 @@ export class CalculoDiluicaoController {
           id_apresentacao: idApresentacao,
           id_via: idVia,
           id_acesso: idAcesso
-        },
-        include: {
-          apresentacao: true,
         }
       });
       if (!calculoDiluicao) {
